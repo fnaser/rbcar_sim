@@ -1,8 +1,12 @@
 <?xml version="1.0"?>
 <launch>
 
+  <arg name="robot_name" default="rbcar"/>
+
   <!-- start gazebo simulation -->
-  <include file="$(find rbcar_gazebo)/launch/rbcar.launch"/>
+  <include file="$(find rbcar_gazebo)/launch/rbcar.launch">
+    <arg name="robot_name" value="$(arg robot_name)"/>
+  </include>
 
   <!-- start robot_control node -->
   <include file="$(find rbcar_robot_control)/launch/rbcar_robot_control.launch"/>

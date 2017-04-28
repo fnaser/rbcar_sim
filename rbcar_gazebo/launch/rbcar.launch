@@ -4,24 +4,15 @@
   <!-- roslaunch arguments -->
   <arg name="debug" default="false"/>
   <arg name="gui" default="true"/>
+  <arg name="robot_name"/>
 
   <!-- rbcar_control launch file -->
   <include file="$(find rbcar_control)/launch/rbcar_control.launch" />
-  
-  <!-- include file="$(find rbcar_robot_control)/launch/rbcar_robot_control.launch"/ -->
-
-  <!-- rbcar_joy launch file -->
-  <!-- Include this file only if you wish a the control the robot via joystick, it has to be commented if you want to set goals for autonomous navigation -->
-  <!-- for this node to work correctly first you need to succesfully connect the ps3 joystick with:
-		sudo su
-		rosrun ps3joy sixpair
-		rosrun ps3joy ps3joy.py
-  -->
-  <!-- include file="$(find rbcar_joystick)/launch/rbcar_joy.launch" / -->
 
   <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" value="$(find rbcar_gazebo)/worlds/rbcar.world"/>
+    <!--arg name="world_name" value="$(find rbcar_gazebo)/worlds/rbcar.world"/-->
+    <arg name="world_name" value="$(find catvehicle)/worlds/small_city.world"/>
     <arg name="debug" value="$(arg debug)" />
     <arg name="gui" value="$(arg gui)" />
     <arg name="paused" value="false"/>
@@ -30,8 +21,14 @@
   </include>
 
   <!-- Load the URDF into the ROS Parameter Server -->
+  <!--param name="robot_description"
+         command="$(find xacro)/xacro.py '$(find rbcar_description)/robots/rbcar.urdf.xacro'" /-->
   <param name="robot_description"
-         command="$(find xacro)/xacro.py '$(find rbcar_description)/robots/rbcar.urdf.xacro'" />
+         command="$(find xacro)/xacro '$(find rbcar_description)/robots/rbcar_2_lidars.urdf.xacro' roboname:='$(arg robot_name)'" />
+
+  <include file="$(find catvehicle)/launch/tfs_2_lidars.launch">
+    <arg name="robot_name" value="$(arg robot_name)"/>
+  </include>
          
   <!-- Call a python script to the run a service call to gazebo_ros to spawn a URDF robot -->
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
