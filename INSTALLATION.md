@@ -23,7 +23,7 @@ catkin_make
 git clone https://github.com/RobotnikAutomation/robotnik_msgs.git
 git clone https://github.com/RobotnikAutomation/robotnik_sensors.git
 git checkout kinetic-devel
-git clone https://github.com/RobotnikAutomation/rbcar_common.git
+git clone https://github.com/fnaser/rbcar_common.git
 git checkout kinetic-devel
 git clone https://github.com/fnaser/rbcar_sim.git
 git checkout kinetic-devel
