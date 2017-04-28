@@ -26,9 +26,11 @@
   <param name="robot_description"
          command="$(find xacro)/xacro '$(find rbcar_description)/robots/rbcar_2_lidars.urdf.xacro' roboname:='$(arg robot_name)'" />
 
+  <group ns="$(arg robot_name)">
   <include file="$(find catvehicle)/launch/tfs_2_lidars.launch">
     <arg name="robot_name" value="$(arg robot_name)"/>
   </include>
+  </group>
          
   <!-- Call a python script to the run a service call to gazebo_ros to spawn a URDF robot -->
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
